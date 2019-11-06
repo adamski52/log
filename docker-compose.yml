@@ -1,0 +1,13 @@
+version: "3"
+services:
+  db:
+    image: postgres:12.0
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: local
+      POSTGRES_DB: JNA
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./db/data:/var/lib/postgresql/data

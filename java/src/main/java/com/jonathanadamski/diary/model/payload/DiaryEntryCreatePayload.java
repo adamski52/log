@@ -1,0 +1,12 @@
+package com.jonathanadamski.diary.model.payload;
+
+import lombok.Data;
+
+@Data
+public class DiaryEntryCreatePayload {
+    private String date;
+    private int slot;
+    private String food;
+    private String thoughts;
+    private int hunger;
+}
