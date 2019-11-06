@@ -1,12 +1,10 @@
 import {IDiaryEntry} from "./DiaryEntry";
 import { IAuthentication } from "./Authentication";
+import { IErrorHandler } from "./Error";
 
-export interface IDiaryProps {
-    auth: IAuthentication;
-    entries: IDiaryEntry[];
+export interface IDiaryProps extends IErrorHandler, IAuthentication {
 }
 
-export interface IDiaryState {
-    auth: IAuthentication;
+export interface IDiaryState extends IAuthentication {
     entries: IDiaryEntry[];
 }

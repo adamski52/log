@@ -1,5 +1,6 @@
-import {IDiaryEntry} from "./DiaryEntry";
-
 export interface IAuthentication {
-    isAuthenticated: boolean;
+    auth: {
+        isAuthenticated: boolean;
+        apiKey: string;
+    };
 }

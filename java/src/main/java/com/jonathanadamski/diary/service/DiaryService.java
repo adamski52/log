@@ -1,7 +1,6 @@
 package com.jonathanadamski.diary.service;
 
 import com.google.inject.Inject;
-import com.jonathanadamski.diary.exception.InvalidAuthException;
 import com.jonathanadamski.diary.exception.InvalidFieldException;
 import com.jonathanadamski.diary.exception.InvalidIdException;
 import com.jonathanadamski.diary.exception.NotFoundException;
@@ -13,7 +12,6 @@ import org.jooby.Err;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.text.ParseException;
 import java.util.List;
@@ -92,15 +90,6 @@ public class DiaryService {
         }
         catch(Exception e) {
             throw new NotFoundException(payload.getId());
-        }
-    }
-
-    public DiaryEntry findOne(long id) throws Err {
-        try {
-            return entityManager.find(DiaryEntry.class, id);
-        }
-        catch(Exception e) {
-            throw new NotFoundException(id);
         }
     }
 

@@ -47,15 +47,6 @@ public class DiaryOperation {
     }
 
     @GET
-    @Path("/{id}")
-    public DiaryEntry getOne(long id, Request req, Response res) throws Err {
-        String apiKey = req.header("X-API-KEY").value();
-        userService.validateApiKey(apiKey);
-
-        return diaryService.findOne(id);
-    }
-
-    @GET
     public List<DiaryEntry> getAll(Request req, Response res) throws Err {
         String apiKey = req.header("X-API-KEY").value();
         userService.validateApiKey(apiKey);

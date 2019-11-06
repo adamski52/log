@@ -1,0 +1,15 @@
+.error-banner-wrapper {
+    width: 100%;
+    position: absolute;
+    margin: 20px;
+    top: 0;
+    z-index: 9999;
+}
+
+.error-banner-wrapper p {
+    margin: 0;
+}
+
+.login-wrapper {
+    margin-top: 150px;
+}
