@@ -1,4 +1,4 @@
-import { IError } from "./Error";
+import { IStatus } from "./Status";
 import { IAuthentication } from "./Authentication";
 
 
@@ -6,5 +6,5 @@ export interface IAppProps {
 }
 
 export interface IAppState extends IAuthentication {
-    error: IError;
+    status: IStatus;
 }

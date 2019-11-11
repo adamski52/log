@@ -37,6 +37,15 @@ public class DiaryOperation {
         return diaryService.create(payload);
     }
 
+    @DELETE
+    @Path("/{id}")
+    public DiaryEntry delete(long id, Request req, Response res) throws Err {
+        String apiKey = req.header("X-API-KEY").value();
+        userService.validateApiKey(apiKey);
+
+        return diaryService.delete(id);
+    }
+
     @PUT
     @Path("/{id}")
     public DiaryEntry update(long id, @Body DiaryEntryUpdatePayload payload, Request req, Response res) throws Err {
@@ -52,5 +61,14 @@ public class DiaryOperation {
         userService.validateApiKey(apiKey);
 
         return diaryService.findAll();
+    }
+
+    @GET
+    @Path("/{id}")
+    public DiaryEntry getOne(long id, Request req, Response res) throws Err {
+        String apiKey = req.header("X-API-KEY").value();
+        userService.validateApiKey(apiKey);
+
+        return diaryService.findOne(id);
     }
 }

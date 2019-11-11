@@ -18,16 +18,13 @@ public class DiaryEntry {
     @GeneratedValue
     private long id;
 
-    private Calendar date;
-
-    @Enumerated(EnumType.ORDINAL)
-    private DiarySlot slot;
-
+    private Calendar date = new Calendar.Builder().build();
+    private int slot;
     private String food;
     private String thoughts;
-
-    @Enumerated(EnumType.ORDINAL)
-    private DiaryHungerRating hunger;
+    private String activity;
+    private Boolean isProblematic;
+    private int hunger;
 
     public void setDate(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -43,7 +40,7 @@ public class DiaryEntry {
         } else if(slot < min) {
             slot = min;
         }
-        this.slot = DiarySlot.valueOf(slot);
+        this.slot = slot;
     }
 
     public void setHunger(int hunger) {
@@ -54,6 +51,6 @@ public class DiaryEntry {
         } else if(hunger < min) {
             hunger = min;
         }
-        this.hunger = DiaryHungerRating.valueOf(hunger);
+        this.hunger = hunger;
     }
 }

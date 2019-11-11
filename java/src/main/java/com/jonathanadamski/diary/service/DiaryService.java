@@ -28,6 +28,8 @@ public class DiaryService {
             entity.setFood(payload.getFood());
             entity.setThoughts(payload.getThoughts());
             entity.setHunger(payload.getHunger());
+            entity.setIsProblematic(payload.getIsProblematic());
+            entity.setActivity(payload.getActivity());
         }
         catch (ParseException e) {
             throw new InvalidFieldException("date", payload.getDate());
@@ -50,6 +52,10 @@ public class DiaryService {
         if(payload.getThoughts() == null || payload.getThoughts().equals("")) {
             throw new InvalidFieldException("thoughts", payload.getThoughts());
         }
+
+        if(payload.getActivity() == null || payload.getActivity().equals("")) {
+            throw new InvalidFieldException("activity", payload.getActivity());
+        }
     }
 
     public DiaryEntry create(DiaryEntryCreatePayload payload) throws Err {
@@ -67,7 +73,25 @@ public class DiaryService {
         return diaryEntry;
     }
 
-    public DiaryEntry update(long id, DiaryEntryUpdatePayload payload) throws Err{
+    public DiaryEntry delete(long id) throws Err {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        try {
+            DiaryEntry diaryEntry = entityManager.getReference(DiaryEntry.class, id);
+
+            entityManager.remove(diaryEntry);
+
+            transaction.commit();
+
+            return diaryEntry;
+        }
+        catch(Exception e) {
+            throw new NotFoundException(id);
+        }
+    }
+
+    public DiaryEntry update(long id, DiaryEntryUpdatePayload payload) throws Err {
         if(id != payload.getId()) {
             throw new InvalidIdException(id);
         }
@@ -94,7 +118,11 @@ public class DiaryService {
     }
 
     public List<DiaryEntry> findAll() throws Err {
-        Query query = entityManager.createQuery("SELECT d FROM DiaryEntry d");
+        Query query = entityManager.createQuery("SELECT d FROM DiaryEntry d ORDER BY date DESC, slot DESC");
         return query.getResultList();
+    }
+
+    public DiaryEntry findOne(long id) throws Err {
+        return entityManager.getReference(DiaryEntry.class, id);
     }
 }

@@ -24,10 +24,6 @@ public enum DiarySlot {
         }
     }
 
-    public static DiarySlot valueOf(int diarySlot) {
-        return (DiarySlot) map.get(diarySlot);
-    }
-
     public int getValue() {
         return value;
     }

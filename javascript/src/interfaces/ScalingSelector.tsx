@@ -8,6 +8,7 @@ export interface IScalingSelectorProps {
     disabled?: boolean;
     value: number;
     items?: IScalingSelector[];
+    onValueChange: (value:number) => void;
 }
 
 export interface IScalingSelectorState {

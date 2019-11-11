@@ -2,9 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from './Login';
 import { IAppProps, IAppState } from '../interfaces/App';
-import ErrorBanner from './ErrorBanner';
 import Diary from './Diary';
+import DiaryEntryForm from './DiaryEntryForm';
 import { ILoginResult } from '../interfaces/Login';
+import StatusBanner from './StatusBanner';
 
 export default class App extends React.Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
@@ -15,21 +16,18 @@ export default class App extends React.Component<IAppProps, IAppState> {
         isAuthenticated: false,
         apiKey: ""
       },
-      error: {
-        message: ""
+      status: {
+        message: "",
+        type: ""
       }
     };
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
-    this.onError = this.onError.bind(this);
-    this.onClearError = this.onClearError.bind(this);
+    this.showStatus = this.showStatus.bind(this);
+    this.clearStatus = this.clearStatus.bind(this);
   }
 
   private onLoginSuccess(result: ILoginResult) {
-    this.onClearError();
-
-    console.log(result);
-
     this.setState({
       auth: {
         isAuthenticated: true,
@@ -38,18 +36,24 @@ export default class App extends React.Component<IAppProps, IAppState> {
     });
   }
 
-  private onError(message: string) {
+  private showStatus(message: string, type:string) {
     this.setState({
-      error: {
-        message: message
+      status: {
+        message: message,
+        type: type
       }
+    }, () => {
+      setTimeout(() => {
+        this.clearStatus();
+      }, 2000);
     });
   }
 
-  private onClearError() {
+  private clearStatus() {
     this.setState({
-      error: {
-        message: ""
+      status: {
+        message: "",
+        type: ""
       }
     });
   }
@@ -58,13 +62,22 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <div className="container-fluid app-wrapper">
       <Router>
-        <ErrorBanner error={this.state.error} />
+        <StatusBanner status={this.state.status} />
         <Switch>
           <Route exact path="/">
-            <Login onLoginSuccess={this.onLoginSuccess} onError={this.onError} onClearError={this.onClearError} auth={this.state.auth} />
+            <Login onLoginSuccess={this.onLoginSuccess} showStatus={this.showStatus} auth={this.state.auth} />
           </Route>
-          <Route path="/diary">
-            <Diary onError={this.onError} onClearError={this.onClearError} auth={this.state.auth} />
+          <Route exact path="/diary">
+            <Diary showStatus={this.showStatus} auth={this.state.auth} />
+          </Route>
+          <Route exact path="/diary/edit/:id" render={(props) => {
+            return (
+              <DiaryEntryForm showStatus={this.showStatus} auth={this.state.auth} {...props} />
+            );
+          }}>
+          </Route>
+          <Route exact path="/diary/create">
+            <DiaryEntryForm showStatus={this.showStatus} auth={this.state.auth} />
           </Route>
         </Switch>
       </Router>

@@ -1,7 +1,7 @@
-import { IErrorHandler } from "./Error";
 import { IAuthentication } from "./Authentication";
+import { IStatusHandler } from "./Status";
 
-export interface ILoginProps extends IErrorHandler, IAuthentication {
+export interface ILoginProps extends IStatusHandler, IAuthentication {
     onLoginSuccess: (result:ILoginResult) => void;
 }
 

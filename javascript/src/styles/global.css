@@ -1,15 +1,105 @@
-.error-banner-wrapper {
+body {
+    font-size: 10px;
+}
+
+.app-wrapper {
+    padding: 20px;
+}
+
+.controls-wrapper {
+    padding: 10px 0;
+    margin: 10px 0;
+    background: #f0f0f0;
+}
+
+.controls-wrapper .btn {
+    margin: 0 10px;
+}
+
+.status-banner-wrapper {
     width: 100%;
     position: absolute;
-    margin: 20px;
+    margin: 20px 0;
     top: 0;
     z-index: 9999;
 }
 
-.error-banner-wrapper p {
+.status-banner-wrapper p {
     margin: 0;
 }
 
 .login-wrapper {
     margin-top: 150px;
+}
+
+.scaling-selector-wrapper div {
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    margin: 0;
+}
+
+.scaling-selector-wrapper button {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    height: 15px;
+    line-height: 15px;
+}
+
+.btn,
+.btn:before {
+    vertical-align: middle;
+}
+
+.btn:before {
+    padding: 0 3px;
+}
+
+.form-group {
+    background: #f3f3f3;
+    padding: 10px;
+}
+
+.form-group textarea {
+    height: 400px;
+}
+
+.form-group label {
+    font-size: 1rem;
+}
+
+.problematic-entry td {
+    background: #fde5e5;
+}
+
+td .btn {
+    padding: 2px;
+    margin: 2px;
+}
+
+td, th {
+    font-size: .8rem;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background: #f0f0f0;
+}
+
+td {
+    vertical-align: top;;
+}
+
+td .badge {
+    padding: 5px;
+}
+
+th {
+    background: #f3f3f3;
+}
+
+th.controls-column {
+    min-width: 100px;
 }

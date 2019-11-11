@@ -1,24 +1,23 @@
+import { IAuthentication } from "./Authentication";
+import { IRedirectHandler } from "./Redirect";
+import { IRouteHandler } from "./RouteHandler";
+import { IStatusHandler } from "./Status";
+
 export interface IDiaryEntry {
     id: number;
-    date: Date;
+    date: string;
     slot: number;
     food: string;
     thoughts: string;
     hunger: number;
+    activity: string;
+    isProblematic: boolean;
 }
 
-export interface IDiaryEntryResult extends IDiaryEntry {
-    isTemplate?: boolean;
-}
-
-export interface IDiaryEntryProps {
+export interface IDiaryEntryProps extends IAuthentication, IStatusHandler, IRouteHandler {
     entry: IDiaryEntry;
-    disabled?: boolean;
-    isTemplate?: boolean;
 }
 
-export interface IDiaryEntryState {
+export interface IDiaryEntryState extends IAuthentication, IRedirectHandler {
     entry: IDiaryEntry;
-    disabled: boolean;
-    isTemplate: boolean;
 }

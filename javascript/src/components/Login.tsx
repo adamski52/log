@@ -2,6 +2,7 @@ import React, { FormEvent } from 'react';
 import HttpService from '../services/Http';
 import { ILoginProps, ILoginState } from '../interfaces/Login';
 import { Redirect } from 'react-router';
+import UtilService from '../services/Util';
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
     private usernameRef:React.RefObject<HTMLInputElement> = React.createRef();
@@ -18,16 +19,14 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
     private async onSubmit(e:FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        
-        this.props.onClearError();
-        
+                
         if(!this.usernameRef.current || !this.usernameRef.current.value) {
-            this.props.onError("Username is requireds.");
+            this.props.showStatus("Username is requireds.", UtilService.STATUS_ERROR);
             return;
         }
 
         if(!this.passwordRef.current || !this.passwordRef.current.value) {
-            this.props.onError("Password is required.");
+            this.props.showStatus("Password is required.", UtilService.STATUS_ERROR);
             return;
         }
 
@@ -40,7 +39,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             this.props.onLoginSuccess(result);
         }
         catch(e) {
-            this.props.onError("Invalid username/password.");
+            this.props.showStatus("Invalid username/password.", UtilService.STATUS_ERROR);
             return;
         }        
     }

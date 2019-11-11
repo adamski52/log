@@ -9,4 +9,6 @@ public class DiaryEntryCreatePayload {
     private String food;
     private String thoughts;
     private int hunger;
+    private String activity;
+    private Boolean isProblematic;
 }

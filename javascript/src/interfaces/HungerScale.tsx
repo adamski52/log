@@ -1,9 +1,8 @@
 export interface IHungerScaleProps {
     value: number;
-    disabled?: boolean;
+    onValueChange: (value:number) => void;
 }
 
 export interface IHungerScaleState {
     value: number;
-    disabled: boolean;
 }
