@@ -11,3 +11,15 @@ services:
       - "15432:5432"
     volumes:
       - ./db/data:/var/lib/postgresql/data
+
+  api:
+    build: java
+    restart: always
+    ports:
+      - "9001:3456"
+
+  ui:
+    build: javascript
+    restart: always
+    ports:
+      - "8001:3000"
