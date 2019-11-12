@@ -70,10 +70,6 @@ body {
     font-size: 1rem;
 }
 
-.problematic-entry td {
-    background: #fde5e5;
-}
-
 td .btn {
     padding: 2px;
     margin: 2px;
@@ -87,6 +83,12 @@ td, th {
 tr:nth-child(even) {
     background: #f0f0f0;
 }
+
+tr:nth-child(even).problematic-entry td,
+tr.problematic-entry td {
+    background: #fde5e5;
+}
+
 
 td {
     vertical-align: top;;

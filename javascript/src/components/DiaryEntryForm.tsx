@@ -12,13 +12,11 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
     private foodRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
     private thoughtsRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
     private activityRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
-    private isProblematicRef:React.RefObject<HTMLInputElement> = React.createRef();
 
     constructor(props: IDiaryEntryFormProps) {
         super(props);
 
         this.state = {
-            auth: props.auth,
             entry: {
                 id: -1,
                 date: UtilService.getDateStringFromDate(new Date()),
@@ -43,6 +41,8 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                 ...this.state.entry,
                 isProblematic: !this.state.entry.isProblematic
             }
+        }, () => {
+            console.log("now?", this.state);
         });
     }
 
@@ -65,16 +65,16 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
     }
 
     private async createNewEntry() {
-        try {            
+        try {
             await HttpService.post("/api/diary", {
                 date: new Date(this.dateRef.current!.value),
                 food: UtilService.getRefValue(this.foodRef),
                 thoughts: UtilService.getRefValue(this.thoughtsRef),
                 slot: this.state.entry.slot,
                 hunger: this.state.entry.hunger,
-                isProblematic: this.isProblematicRef.current ? this.isProblematicRef.current.checked : false,
+                isProblematic: !!this.state.entry.isProblematic,
                 activity: UtilService.getRefValue(this.activityRef)
-            }, this.state.auth.apiKey);
+            });
             
             this.props.showStatus("Entry created successfully.", UtilService.STATUS_SUCCESS);
 
@@ -96,11 +96,15 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                 thoughts: UtilService.getRefValue(this.thoughtsRef),
                 slot: this.state.entry.slot,
                 hunger: this.state.entry.hunger,
-                isProblematic: this.isProblematicRef.current ? this.isProblematicRef.current.checked : false,
+                isProblematic: !!this.state.entry.isProblematic,
                 activity: UtilService.getRefValue(this.activityRef)
-            }, this.state.auth.apiKey);
+            });
 
             this.props.showStatus("Entry updated successfully.", UtilService.STATUS_SUCCESS);
+
+            this.setState({
+                redirectTo: "/diary"
+            });
         }
         catch(e) {
             this.props.showStatus("Failed to update entry.", UtilService.STATUS_ERROR);
@@ -117,12 +121,6 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
 
         this.updateEntry();
     }
-    
-    public static getDerivedStateFromProps(props:IDiaryEntryFormProps, state:IDiaryEntryFormState) {
-        return {
-            auth: props.auth
-        };
-    }
 
     public async componentDidMount() {
         if(!this.props.match || !this.props.match.params || !this.props.match.params.id) {
@@ -130,7 +128,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
         }
 
         try {
-            let response = await HttpService.get("/api/diary/" + this.props.match.params.id, this.state.auth.apiKey);
+            let response = await HttpService.get("/api/diary/" + this.props.match.params.id);
             this.setState({
                 entry: {
                     id: response.id,
@@ -150,7 +148,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
     }
 
     public render() {
-        if(!this.state.auth.isAuthenticated) {
+        if(!UtilService.isAuthenticated()) {
             return (
                 <Redirect to="/" />
             );

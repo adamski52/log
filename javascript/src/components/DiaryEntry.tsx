@@ -9,7 +9,6 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
     constructor(props: IDiaryEntryProps) {
         super(props);
         this.state = {
-            auth: props.auth,
             entry: props.entry
         };
 
@@ -23,8 +22,12 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
 
     private async onDelete(e:MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
+        if(!window.confirm("Are you sure you want to delete this entry?")) {
+            return;
+        }
+
         try {
-            await HttpService.delete("/api/diary/" + this.state.entry.id, this.state.auth.apiKey);
+            await HttpService.delete("/api/diary/" + this.state.entry.id);
             this.setState({
                 redirectTo: "/diary"
             });
@@ -36,9 +39,9 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
 
     private renderParagraphs(value:string) {
         let lines = value.split("\n"),
-            ps = lines.map((line) => {
+            ps = lines.map((line, index) => {
                 return (
-                    <p>{line}</p>
+                    <p key={index}>{line}</p>
                 );
             });
         
@@ -61,7 +64,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
         });
 
         return (
-            <tr className={this.state.entry.isProblematic ? "problematic-entry" : ""}>
+            <tr className={this.state.entry.isProblematic ? "problematic-entry" : "obv not"}>
                 <td>{UtilService.getDateString(this.state.entry.date)}</td>
                 <td>
                     <span className={slotInfo!.className + " badge"}>{slotInfo!.name}</span>

@@ -3,6 +3,7 @@ import HttpService from '../services/Http';
 import { ILoginProps, ILoginState } from '../interfaces/Login';
 import { Redirect } from 'react-router';
 import UtilService from '../services/Util';
+import Cookie from "js-cookie";
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
     private usernameRef:React.RefObject<HTMLInputElement> = React.createRef();
@@ -10,10 +11,9 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
     constructor(props:ILoginProps) {
         super(props);
-        this.state = {
-            auth: props.auth
-        };
 
+        this.state = {};
+        
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -36,7 +36,10 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                 password: this.passwordRef.current.value
             });
 
-            this.props.onLoginSuccess(result);
+            Cookie.set("X-API-KEY", result.apiKey);
+            this.setState({
+                redirectTo: "/diary"
+            });
         }
         catch(e) {
             this.props.showStatus("Invalid username/password.", UtilService.STATUS_ERROR);
@@ -44,16 +47,16 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
         }        
     }
 
-    public static getDerivedStateFromProps(props:ILoginProps, state:ILoginState) {
-        return {
-            auth: props.auth
-        };
-    }
-
     public render() {
-        if(this.state.auth.isAuthenticated) {
+        if(UtilService.isAuthenticated()) {
             return (
                 <Redirect to="/diary" />
+            );
+        }
+
+        if(this.state.redirectTo) {
+            return (
+                <Redirect to={this.state.redirectTo} />
             );
         }
 

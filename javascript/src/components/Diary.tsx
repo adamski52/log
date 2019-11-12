@@ -12,7 +12,6 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
         super(props);
         
         this.state = {
-            auth: props.auth,
             entries: []
         };
     }
@@ -20,18 +19,18 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
     private renderEntries() {
         return this.state.entries.map((entry:IDiaryEntry) => {
             return (
-                <DiaryEntry entry={entry} key={entry.id} auth={this.state.auth} showStatus={this.props.showStatus} />
+                <DiaryEntry entry={entry} key={entry.id} showStatus={this.props.showStatus} />
             );
         });
     }
 
     private async fetch() {
-        if(!this.state.auth.isAuthenticated) {
+        if(!UtilService.isAuthenticated()) {
             return;
         }
 
         try {
-            let result:IDiaryEntry[] = await HttpService.get("/api/diary", this.state.auth.apiKey);
+            let result:IDiaryEntry[] = await HttpService.get("/api/diary");
 
             this.setState({
                 entries: result
@@ -46,14 +45,8 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
         this.fetch();
     }
 
-    public static getDerivedStateFromProps(props:IDiaryProps, state:IDiaryState) {
-        return {
-            auth: props.auth
-        };
-    }
-
     public render() {
-        if(!this.state.auth.isAuthenticated) {
+        if(!UtilService.isAuthenticated()) {
             return (
                 <Redirect to="/" />
             );

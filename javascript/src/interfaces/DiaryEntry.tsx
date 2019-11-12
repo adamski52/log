@@ -1,4 +1,3 @@
-import { IAuthentication } from "./Authentication";
 import { IRedirectHandler } from "./Redirect";
 import { IRouteHandler } from "./RouteHandler";
 import { IStatusHandler } from "./Status";
@@ -14,10 +13,10 @@ export interface IDiaryEntry {
     isProblematic: boolean;
 }
 
-export interface IDiaryEntryProps extends IAuthentication, IStatusHandler, IRouteHandler {
+export interface IDiaryEntryProps extends IStatusHandler, IRouteHandler {
     entry: IDiaryEntry;
 }
 
-export interface IDiaryEntryState extends IAuthentication, IRedirectHandler {
+export interface IDiaryEntryState extends IRedirectHandler {
     entry: IDiaryEntry;
 }

@@ -1,11 +1,10 @@
-import { IAuthentication } from "./Authentication";
 import { IStatusHandler } from "./Status";
+import { IRedirectHandler } from "./Redirect";
 
-export interface ILoginProps extends IStatusHandler, IAuthentication {
-    onLoginSuccess: (result:ILoginResult) => void;
+export interface ILoginProps extends IStatusHandler {
 }
 
-export interface ILoginState extends IAuthentication {
+export interface ILoginState extends IRedirectHandler {
 }
 
 export interface ILoginResult {

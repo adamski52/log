@@ -1,4 +1,5 @@
 import {style} from 'typestyle';
+import Cookie from "js-cookie";
 
 export default class UtilService {
 
@@ -8,6 +9,20 @@ export default class UtilService {
     public static getDateString(d:string) {
         let fullDate = new Date(d);
         return this.getDateStringFromDate(fullDate);
+    }
+
+    public static getAPIKeyFromCookie() {
+        let apiKey = Cookie.get("X-API-KEY");
+        if(apiKey) {
+            return apiKey;
+        }
+
+        return "";
+    }
+
+    public static isAuthenticated() {
+        let apiKey = this.getAPIKeyFromCookie();
+        return !!apiKey;
     }
     
     public static getDateStringFromDate(fullDate:Date) {

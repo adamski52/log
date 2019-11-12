@@ -4,7 +4,6 @@ import Login from './Login';
 import { IAppProps, IAppState } from '../interfaces/App';
 import Diary from './Diary';
 import DiaryEntryForm from './DiaryEntryForm';
-import { ILoginResult } from '../interfaces/Login';
 import StatusBanner from './StatusBanner';
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -12,28 +11,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
     super(props);
 
     this.state = {
-      auth: {
-        isAuthenticated: false,
-        apiKey: ""
-      },
       status: {
         message: "",
         type: ""
       }
     };
 
-    this.onLoginSuccess = this.onLoginSuccess.bind(this);
     this.showStatus = this.showStatus.bind(this);
     this.clearStatus = this.clearStatus.bind(this);
-  }
-
-  private onLoginSuccess(result: ILoginResult) {
-    this.setState({
-      auth: {
-        isAuthenticated: true,
-        apiKey: result.apiKey
-      }
-    });
   }
 
   private showStatus(message: string, type:string) {
@@ -65,19 +50,19 @@ export default class App extends React.Component<IAppProps, IAppState> {
         <StatusBanner status={this.state.status} />
         <Switch>
           <Route exact path="/">
-            <Login onLoginSuccess={this.onLoginSuccess} showStatus={this.showStatus} auth={this.state.auth} />
+            <Login showStatus={this.showStatus} />
           </Route>
           <Route exact path="/diary">
-            <Diary showStatus={this.showStatus} auth={this.state.auth} />
+            <Diary showStatus={this.showStatus} />
           </Route>
           <Route exact path="/diary/edit/:id" render={(props) => {
             return (
-              <DiaryEntryForm showStatus={this.showStatus} auth={this.state.auth} {...props} />
+              <DiaryEntryForm showStatus={this.showStatus} {...props} />
             );
           }}>
           </Route>
           <Route exact path="/diary/create">
-            <DiaryEntryForm showStatus={this.showStatus} auth={this.state.auth} />
+            <DiaryEntryForm showStatus={this.showStatus} />
           </Route>
         </Switch>
       </Router>
