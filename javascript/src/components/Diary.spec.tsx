@@ -171,5 +171,68 @@ describe("App", () => {
         let entries = element.find(DiaryEntry);
         expect(entries.length).toEqual(2);
     });
+
+    it("Should treat a value of -1 on a filter like 'show me'", async () => {
+        spyOn(UtilService, "isAuthenticated").and.returnValue(true);
+        response = [{
+            id: 1,
+            food: "something good",
+            slot: 0,
+            thoughts: "oh hi",
+            hunger: 0,
+            date: "2019/01/01",
+            isProblematic: false,
+            activity: "busy"
+        }, {
+            id: 2,
+            food: "something else",
+            slot: 2,
+            thoughts: "hmm",
+            hunger: 3,
+            date: "2019/10/10",
+            isProblematic: true,
+            activity: "bored"
+        }, {
+            id: 3,
+            food: "something else again",
+            slot: 2,
+            thoughts: "i match",
+            hunger: 3,
+            date: "2019/02/02",
+            isProblematic: true,
+            activity: "bored again"
+        }, {
+            id: 4,
+            food: "something else again",
+            slot: 2,
+            thoughts: "i match",
+            hunger: 3,
+            date: "2019/02/02",
+            isProblematic: true,
+            activity: "bored again"
+        }];
+
+        let promise:Promise<IDiaryEntry[]> = Promise.resolve(response);        
+        spyOn(HttpService, "get").and.returnValue(promise);
+        
+        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        
+        await promise;
+        element.update();
+
+        element.setState({
+            filters: [{
+                prop: "slot",
+                value: -1
+            }, {
+                prop: "hunger",
+                value: 3
+            }]
+        });
+
+        element.update();
+        let entries = element.find(DiaryEntry);
+        expect(entries.length).toEqual(3);
+    });
 });
 
