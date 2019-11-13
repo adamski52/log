@@ -1,7 +1,6 @@
 import React, { FormEvent } from 'react';
 import HttpService from '../services/Http';
 import { ILoginProps, ILoginState } from '../interfaces/Login';
-import { Redirect } from 'react-router';
 import UtilService from '../services/Util';
 import Cookie from "js-cookie";
 
@@ -37,9 +36,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             });
 
             Cookie.set("X-API-KEY", result.apiKey);
-            this.setState({
-                redirectTo: "/diary"
-            });
+            this.props.onRedirect("/diary");
         }
         catch(e) {
             this.props.showStatus("Invalid username/password.", UtilService.STATUS_ERROR);
@@ -48,18 +45,6 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
     }
 
     public render() {
-        if(UtilService.isAuthenticated()) {
-            return (
-                <Redirect to="/diary" />
-            );
-        }
-
-        if(this.state.redirectTo) {
-            return (
-                <Redirect to={this.state.redirectTo} />
-            );
-        }
-
         return (
             <div className="login-wrapper row justify-content-center">
                 <div className="col-4">

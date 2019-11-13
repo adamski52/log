@@ -4,7 +4,6 @@ import { IDiaryEntryFormProps, IDiaryEntryFormState } from '../interfaces/DiaryE
 import TimeSlot from './TimeSlot';
 import HungerScale from './HungerScale';
 import UtilService from '../services/Util';
-import { Redirect } from 'react-router';
 import HttpService from '../services/Http';
 
 export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps, IDiaryEntryFormState> {
@@ -77,10 +76,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
             });
             
             this.props.showStatus("Entry created successfully.", UtilService.STATUS_SUCCESS);
-
-            this.setState({
-                redirectTo: "/diary"
-            });
+            this.props.onRedirect("/diary");
         }
         catch(e) {
             this.props.showStatus("Failed to create entry.", UtilService.STATUS_ERROR);
@@ -102,9 +98,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
 
             this.props.showStatus("Entry updated successfully.", UtilService.STATUS_SUCCESS);
 
-            this.setState({
-                redirectTo: "/diary"
-            });
+            this.props.onRedirect("/diary");
         }
         catch(e) {
             this.props.showStatus("Failed to update entry.", UtilService.STATUS_ERROR);
@@ -148,18 +142,6 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
     }
 
     public render() {
-        if(!UtilService.isAuthenticated()) {
-            return (
-                <Redirect to="/" />
-            );
-        }
-
-        if(this.state.redirectTo) {
-            return (
-                <Redirect to={this.state.redirectTo} />
-            );
-        }
-
         return (
             <div className="diary-entry-form-wrapper">
                 <div className="row">

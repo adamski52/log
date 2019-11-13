@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { IDiaryEntryProps, IDiaryEntryState } from '../interfaces/DiaryEntry';
 import UtilService from '../services/Util';
 import HttpService from '../services/Http';
-import { Redirect } from 'react-router';
 
 export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiaryEntryState> {
     constructor(props: IDiaryEntryProps) {
@@ -28,9 +27,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
 
         try {
             await HttpService.delete("/api/diary/" + this.state.entry.id);
-            this.setState({
-                redirectTo: "/diary"
-            });
+            this.props.onRedirect("/diary");
         }
         catch(e) {
             this.props.showStatus("Failed to delete entry.", UtilService.STATUS_ERROR);
@@ -49,12 +46,6 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
     }
 
     public render() {
-        if(this.state.redirectTo) {
-            return (
-                <Redirect to={this.state.redirectTo} />
-            );
-        }
-
         let hungerInfo = UtilService.getHungerScales().find((scale) => {
             return scale.value === this.state.entry.hunger;
         });

@@ -12,14 +12,16 @@ services:
     volumes:
       - ./db/data:/var/lib/postgresql/data
 
-  api:
-    build: java
-    restart: always
-    ports:
-      - "9001:3456"
-
-  ui:
-    build: javascript
-    restart: always
-    ports:
-      - "8001:3000"
+#  api:
+#    depends_on: db
+#    build: java
+#    restart: always
+#    ports:
+#      - "9001:3456"
+#
+#  ui:
+#    depends_on: api
+#    build: javascript
+#    restart: always
+#    ports:
+#      - "8001:3000"

@@ -1,12 +1,12 @@
 import {IDiaryEntry} from "./DiaryEntry";
-import { IRedirectHandler } from "./Redirect";
+import { IRedirector } from "./Redirect";
 import { IRouteHandler } from "./RouteHandler";
 import { IStatusHandler } from "./Status";
 
-export interface IDiaryEntryFormProps extends IStatusHandler, IRouteHandler {
+export interface IDiaryEntryFormProps extends IStatusHandler, IRouteHandler, IRedirector {
     entry?: IDiaryEntry;
 }
 
-export interface IDiaryEntryFormState extends IRedirectHandler {
+export interface IDiaryEntryFormState {
     entry: IDiaryEntry;
 }

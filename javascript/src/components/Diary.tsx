@@ -1,26 +1,76 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { MouseEvent } from 'react';
 import { IDiaryProps, IDiaryState } from '../interfaces/Diary';
 import DiaryEntry from './DiaryEntry';
 import HttpService from '../services/Http';
-import { Redirect } from 'react-router';
 import { IDiaryEntry } from '../interfaces/DiaryEntry';
 import UtilService from '../services/Util';
+import TableFilter from './TableFilter';
 
 export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
     constructor(props:IDiaryProps) {
         super(props);
         
         this.state = {
-            entries: []
+            entries: [],
+            filters: []
         };
+
+        this.onFilterChange = this.onFilterChange.bind(this);
+        this.onCreate = this.onCreate.bind(this);
+    }
+
+    private onCreate(e:MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        this.props.onRedirect("/diary/create");
+    }
+
+    private getVisibleEntries() {
+        let filter;
+        return this.state.entries.filter((entry) => {
+            for(let i = 0; i < this.state.filters.length; i++) {
+                filter = this.state.filters[i];
+
+                // intentionally using == instead of ===
+                if(filter.value == -1) {
+                    continue;
+                }
+                
+                // intentionally using == instead of ===
+                if(entry[filter.prop as "slot" | "hunger"] != filter.value) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
     }
 
     private renderEntries() {
-        return this.state.entries.map((entry:IDiaryEntry) => {
+        let entries = this.getVisibleEntries();
+        return entries.map((entry:IDiaryEntry) => {
             return (
-                <DiaryEntry entry={entry} key={entry.id} showStatus={this.props.showStatus} />
+                <DiaryEntry onRedirect={this.props.onRedirect} entry={entry} key={entry.id} showStatus={this.props.showStatus} />
             );
+        });
+    }
+
+    private onFilterChange(prop:string, value:any) {
+        let filters = [];
+        this.state.filters.forEach((filter) => {
+            if(filter.prop === prop) {
+                return;
+            }
+
+            filters.push(filter);
+        });
+
+        filters.push({
+            prop: prop,
+            value: value
+        });
+        
+        this.setState({
+            filters: filters
         });
     }
 
@@ -46,24 +96,22 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
     }
 
     public render() {
-        if(!UtilService.isAuthenticated()) {
-            return (
-                <Redirect to="/" />
-            );
-        }
-
         return (
             <div className="row diary-entries-wrapper justify-content-center">
                 <div className="col-12 controls-wrapper">
-                    <Link className="btn btn-primary" to="/diary/create">Create</Link>
+                    <button className="btn btn-primary" onClick={this.onCreate}>Create</button>
                 </div>
                 <table className="col-10">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Time</th>
+                            <th>Time
+                                <TableFilter prop={"slot"} options={UtilService.getTimeSlots()} onFilterChange={this.onFilterChange} />
+                            </th>
                             <th>Food</th>
-                            <th>Hunger</th>
+                            <th>Hunger
+                                <TableFilter prop={"hunger"} options={UtilService.getHungerScales()} onFilterChange={this.onFilterChange} />
+                            </th>
                             <th>Thoughts</th>
                             <th>Activity</th>
                             <th className="controls-column"></th>
