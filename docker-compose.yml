@@ -17,10 +17,10 @@ services:
       - db
     build: java
     environment:
-        JNA_DB_PASSWORD: ${JNA_DB_PASSWORD}
-        JNA_DB_URL: ${JNA_DB_URL}
-        JNA_DB_USER: ${JNA_DB_NAME}
-        JNA_SALT: ${JNA_SALT}
+        JNA_DB_PASSWORD: "${JNA_DB_PASSWORD}"
+        JNA_DB_URL: "${JNA_DB_URL}"
+        JNA_DB_USER: "${JNA_DB_USER}"
+        JNA_SALT: "${JNA_SALT}"
     restart: always
     ports:
       - "9001:3456"
