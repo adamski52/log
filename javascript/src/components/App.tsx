@@ -51,7 +51,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     });
   }
 
-  public render() {
+  private handleRedirects() {
     if(!UtilService.isAuthenticated()) {
       return (
           <Redirect to="/" />
@@ -64,9 +64,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
       );
     }
 
+    return null;
+  }
+
+  public render() {
     return (
       <div className="container-fluid app-wrapper">
       <Router>
+        {this.handleRedirects()}
         <StatusBanner status={this.state.status} />
         <Switch>
           <Route exact path="/">
