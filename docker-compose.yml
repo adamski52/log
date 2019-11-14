@@ -12,23 +12,23 @@ services:
     volumes:
       - ./db/data:/var/lib/postgresql/data
 
-  api:
-    depends_on:
-      - db
-    build: java
-    environment:
-        JNA_DB_PASSWORD: "${JNA_DB_PASSWORD}"
-        JNA_DB_URL: "${JNA_DB_URL}"
-        JNA_DB_USER: "${JNA_DB_USER}"
-        JNA_SALT: "${JNA_SALT}"
-    restart: always
-    ports:
-      - "9001:3456"
-
-  ui:
-    depends_on:
-    - api
-    build: javascript
-    restart: always
-    ports:
-      - "8001:5000"
+#  api:
+#    depends_on:
+#      - db
+#    build: java
+#    environment:
+#        JNA_DB_PASSWORD: "${JNA_DB_PASSWORD}"
+#        JNA_DB_URL: "${JNA_DB_URL}"
+#        JNA_DB_USER: "${JNA_DB_USER}"
+#        JNA_SALT: "${JNA_SALT}"
+#    restart: always
+#    ports:
+#      - "9001:3456"
+#
+#  ui:
+#    depends_on:
+#    - api
+#    build: javascript
+#    restart: always
+#    ports:
+#      - "8001:5000"

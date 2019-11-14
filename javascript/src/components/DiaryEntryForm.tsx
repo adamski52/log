@@ -1,5 +1,4 @@
 import React, { MouseEvent, ChangeEvent } from 'react';
-import { Link } from "react-router-dom";
 import { IDiaryEntryFormProps, IDiaryEntryFormState } from '../interfaces/DiaryEntryForm';
 import TimeSlot from './TimeSlot';
 import HungerScale from './HungerScale';
@@ -32,6 +31,12 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
         this.onHungerScaleChange = this.onHungerScaleChange.bind(this);
         this.onTimeSlotChange = this.onTimeSlotChange.bind(this);
         this.onIsProblematicChange = this.onIsProblematicChange.bind(this);
+        this.onBackToList = this.onBackToList.bind(this);
+    }
+
+    private onBackToList(e:MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        this.props.onRedirect("/diary");
     }
 
     private onIsProblematicChange(e:ChangeEvent<HTMLInputElement>) {
@@ -146,7 +151,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
             <div className="diary-entry-form-wrapper">
                 <div className="row">
                     <div className="col-12 controls-wrapper">
-                        <Link to="/diary" className="btn btn-primary">Back to List</Link>
+                        <button onClick={this.onBackToList} className="btn btn-primary">Back to List</button>
                     </div>
                 </div>
                 <form className="row diary-entry-form">
@@ -193,7 +198,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                         </div>
                     </div>
                     <div className="col-12 text-right controls-wrapper">
-                        <Link to="/diary" className="btn btn-danger icon-ban">Cancel</Link>
+                        <button onClick={this.onBackToList} className="btn btn-danger icon-ban">Cancel</button>
                         <button onClick={this.onSave} className="btn btn-primary icon-check">Save</button>
                     </div>
                 </form>
