@@ -158,7 +158,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                     <div className="col-4">
                         <div className="form-group">
                             <label>Date</label>
-                            <input type="text" className="form-control" ref={this.dateRef} defaultValue={UtilService.getDateString(this.state.entry.date)} />
+                            <input type="text" className="form-control" ref={this.dateRef} defaultValue={this.state.entry.date} />
                         </div>
                     </div>
                     <div className="col-4">

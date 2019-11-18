@@ -1,5 +1,4 @@
 import React, { MouseEvent } from 'react';
-import { Link } from "react-router-dom";
 import { IDiaryEntryProps, IDiaryEntryState } from '../interfaces/DiaryEntry';
 import UtilService from '../services/Util';
 import HttpService from '../services/Http';
@@ -17,6 +16,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
 
     private onEdit(e:MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
+        this.props.onRedirect("/diary/edit/" + this.state.entry.id);
     }
 
     private async onDelete(e:MouseEvent<HTMLButtonElement>) {
@@ -67,7 +67,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
                 <td>{this.renderParagraphs(this.state.entry.thoughts)}</td>
                 <td>{this.renderParagraphs(this.state.entry.activity)}</td>
                 <td>
-                    <Link to={"/diary/edit/" + this.state.entry.id} className="btn btn-primary icon-pencil-square" />
+                    <button onClick={this.onEdit} className="btn btn-primary icon-pencil-square" />
                     <button onClick={this.onDelete} className="btn btn-danger icon-trash" />
                 </td>
             </tr>

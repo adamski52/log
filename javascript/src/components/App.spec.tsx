@@ -1,52 +1,47 @@
 import React from 'react';
 import App from './App';
-import {mount} from "../../enzyme-init";
+import { mount } from "../../enzyme-init";
 import StatusBanner from './StatusBanner';
+import UtilService from '../services/Util';
 
 describe("App", () => {
-  it("should have a blank initial state", () => {
-    let element = mount(<App />);
-    // await promise;
-    // element.update();
-    // expect(MenuService.getMenuState).toHaveBeenCalledWith(menuId, undefined);
+    it("should have a blank initial state", () => {
+        spyOn(UtilService, "isAuthenticated").and.returnValue(true);
 
-      expect(element.state()).toEqual({
-          status: {
-            message: "",
-            type: ""
-          }
-      });
-
-      // expect(selectorSet.find(Selector).length).toEqual(2);
-  });
-
-  it("should update the banner's when state changes", () => {
-    let element = mount(<App />);
-    let banner = element.find(StatusBanner);
-    expect(banner.state()).toEqual({
-      status: {
-        message: "",
-        type: ""
-      }
+        let app = mount(<App />);
+        expect(app.state()).toEqual({
+            status: {
+                message: "",
+                type: ""
+            }
+        });
     });
 
-    element.setState({
-      status: {
-        message: "oh no",
-        type: "error"
-      }
+    it("should update the banner when state changes", () => {
+        let app = mount(<App />);
+        let banner = app.find(StatusBanner);
+        expect(banner.state()).toEqual({
+            status: {
+                message: "",
+                type: ""
+            }
+        });
+
+        app.setState({
+            status: {
+                message: "oh no",
+                type: "error"
+            }
+        });
+
+        banner.update();
+
+        expect(banner.state()).toEqual({
+            status: {
+                message: "oh no",
+                type: "error"
+            }
+        });
     });
-
-    banner.update();
-
-    expect(banner.state()).toEqual({
-      status: {
-        message: "oh no",
-        type: "error"
-      }
-    });
-  });
-
-
 });
 
