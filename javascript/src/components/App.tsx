@@ -78,7 +78,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
           <StatusBanner status={this.state.status} />
           <Switch>
             <Route exact path="/" render={(props) => {
-              return this.renderOrRedirect(
+              return (
                 <Login onRedirect={this.onRedirect} showStatus={this.showStatus} {...props} />
               );
             }} />
