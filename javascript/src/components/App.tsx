@@ -55,7 +55,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     });
   }
 
-  private renderOrRedirect(desired:JSX.Element | null) {
+  private handleRedirect() {
     if(!UtilService.isAuthenticated()) {
       return (
           <Redirect to="/" />
@@ -68,7 +68,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
       );
     }
 
-    return desired;
+    return null;
   }
 
   public render() {
@@ -83,20 +83,21 @@ export default class App extends React.Component<IAppProps, IAppState> {
               );
             }} />
             <Route exact path="/diary" render={(props) => {
-              return this.renderOrRedirect(
+              return (
                 <Diary onRedirect={this.onRedirect} showStatus={this.showStatus} {...props} />
               );
             }} />
             <Route exact path="/diary/edit/:id" render={(props) => {
-              return this.renderOrRedirect(
+              return (
                 <DiaryEntryForm onRedirect={this.onRedirect} showStatus={this.showStatus} {...props} />
               );
             }} />
             <Route exact path="/diary/create" render={(props) => {
-              return this.renderOrRedirect(
+              return (
                 <DiaryEntryForm onRedirect={this.onRedirect} showStatus={this.showStatus} />
               );
             }} />
+            {this.handleRedirect()}
           </Switch>
         </Router>
       </div>
