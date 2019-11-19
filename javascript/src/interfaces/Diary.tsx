@@ -1,9 +1,9 @@
 import {IDiaryEntry} from "./DiaryEntry";
 import { IStatusHandler } from "./Status";
 import { IFilterCondition } from "./FilterCondition";
-import { IRedirector } from "./Redirect";
+import { IRouteHandler } from "./RouteHandler";
 
-export interface IDiaryProps extends IStatusHandler, IRedirector {
+export interface IDiaryProps extends IStatusHandler, IRouteHandler {
 }
 
 export interface IDiaryState {

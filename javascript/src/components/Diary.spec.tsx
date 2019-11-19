@@ -11,10 +11,6 @@ describe("App", () => {
 
     };
 
-    let onRedirect = (to:string) => {
-        
-    };
-
     let response:IDiaryEntry[] = [{
         id: 1,
         food: "something good",
@@ -30,7 +26,7 @@ describe("App", () => {
     it("should have a blank initial state", () => {
         spyOn(UtilService, "isAuthenticated").and.returnValue(true);
 
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
         expect(element.state()).toEqual({
             entries: [],
             filters: []
@@ -44,7 +40,7 @@ describe("App", () => {
         
         spyOn(HttpService, "get").and.returnValue(promise);
         
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
         
         await promise;
 
@@ -63,7 +59,7 @@ describe("App", () => {
         
         spyOn(HttpService, "get").and.returnValue(promise);
         
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
         
         expect(HttpService.get).not.toHaveBeenCalledWith("/api/diary");
                 
@@ -78,7 +74,7 @@ describe("App", () => {
         let promise:Promise<IDiaryEntry[]> = Promise.resolve(response);        
         spyOn(HttpService, "get").and.returnValue(promise);
         
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
 
         await promise;
         element.update();
@@ -92,7 +88,7 @@ describe("App", () => {
         let promise:Promise<IDiaryEntry[]> = Promise.resolve(response);        
         spyOn(HttpService, "get").and.returnValue(promise);
         
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
         
         await promise;
         element.update();
@@ -152,7 +148,7 @@ describe("App", () => {
         let promise:Promise<IDiaryEntry[]> = Promise.resolve(response);        
         spyOn(HttpService, "get").and.returnValue(promise);
         
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
         
         await promise;
         element.update();
@@ -215,7 +211,7 @@ describe("App", () => {
         let promise:Promise<IDiaryEntry[]> = Promise.resolve(response);        
         spyOn(HttpService, "get").and.returnValue(promise);
         
-        let element = shallow(<Diary onRedirect={onRedirect} showStatus={showStatus} />);
+        let element = shallow(<Diary showStatus={showStatus} />);
         
         await promise;
         element.update();

@@ -1,6 +1,5 @@
-import { IRedirectHandler, IRedirector } from "./Redirect";
-import { IRouteHandler } from "./RouteHandler";
 import { IStatusHandler } from "./Status";
+import { IRouteHandler } from "./RouteHandler";
 
 export interface IDiaryEntry {
     id: number;
@@ -13,7 +12,7 @@ export interface IDiaryEntry {
     isProblematic: boolean;
 }
 
-export interface IDiaryEntryProps extends IStatusHandler, IRedirector, IRouteHandler {
+export interface IDiaryEntryProps extends IStatusHandler, IRouteHandler {
     entry: IDiaryEntry;
 }
 

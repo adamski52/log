@@ -21,7 +21,7 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
 
     private onCreate(e:MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        this.props.onRedirect("/diary/create");
+        this.props.history.push("/diary/create");
     }
 
     private getVisibleEntries() {
@@ -49,7 +49,7 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
         let entries = this.getVisibleEntries();
         return entries.map((entry:IDiaryEntry) => {
             return (
-                <DiaryEntry onRedirect={this.props.onRedirect} entry={entry} key={entry.id} showStatus={this.props.showStatus} />
+                <DiaryEntry entry={entry} key={entry.id} showStatus={this.props.showStatus} {...this.props} />
             );
         });
     }
@@ -76,7 +76,7 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
 
     private async fetch() {
         if(!UtilService.isAuthenticated()) {
-            return;
+            this.props.history.push("/");
         }
 
         try {

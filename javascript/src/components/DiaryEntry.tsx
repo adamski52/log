@@ -14,9 +14,16 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
         this.onDelete = this.onDelete.bind(this);
     }
 
+    public componentDidMount() {
+        if(!UtilService.isAuthenticated()) {
+            this.props.history.push("/");
+            return;
+        }
+    }
+
     private onEdit(e:MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        this.props.onRedirect("/diary/edit/" + this.state.entry.id);
+        this.props.history.push("/diary/edit/" + this.state.entry.id);
     }
 
     private async onDelete(e:MouseEvent<HTMLButtonElement>) {
@@ -27,7 +34,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
 
         try {
             await HttpService.delete("/api/diary/" + this.state.entry.id);
-            this.props.onRedirect("/diary");
+            this.props.history.push("/diary" + this.state.entry.id);;
         }
         catch(e) {
             this.props.showStatus("Failed to delete entry.", UtilService.STATUS_ERROR);

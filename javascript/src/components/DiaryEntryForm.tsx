@@ -36,7 +36,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
 
     private onBackToList(e:MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        this.props.onRedirect("/diary");
+        this.props.history.push("/diary");
     }
 
     private onIsProblematicChange(e:ChangeEvent<HTMLInputElement>) {
@@ -45,8 +45,6 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                 ...this.state.entry,
                 isProblematic: !this.state.entry.isProblematic
             }
-        }, () => {
-            console.log("now?", this.state);
         });
     }
 
@@ -81,7 +79,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
             });
             
             this.props.showStatus("Entry created successfully.", UtilService.STATUS_SUCCESS);
-            this.props.onRedirect("/diary");
+            this.props.history.push("/diary");
         }
         catch(e) {
             this.props.showStatus("Failed to create entry.", UtilService.STATUS_ERROR);
@@ -103,7 +101,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
 
             this.props.showStatus("Entry updated successfully.", UtilService.STATUS_SUCCESS);
 
-            this.props.onRedirect("/diary");
+            this.props.history.push("/diary");
         }
         catch(e) {
             this.props.showStatus("Failed to update entry.", UtilService.STATUS_ERROR);
@@ -122,9 +120,15 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
     }
 
     public async componentDidMount() {
+        if(!UtilService.isAuthenticated()) {
+            this.props.history.push("/");
+            return;
+        }
+
         if(!this.props.match || !this.props.match.params || !this.props.match.params.id) {
             return;
         }
+
 
         try {
             let response = await HttpService.get("/api/diary/" + this.props.match.params.id);

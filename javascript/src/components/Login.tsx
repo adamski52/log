@@ -36,7 +36,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             });
 
             Cookie.set("X-API-KEY", result.apiKey);
-            this.props.onRedirect("/diary");
+            this.props.history.push("/diary");
         }
         catch(e) {
             this.props.showStatus("Invalid username/password.", UtilService.STATUS_ERROR);

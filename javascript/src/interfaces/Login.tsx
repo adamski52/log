@@ -1,7 +1,7 @@
 import { IStatusHandler } from "./Status";
-import { IRedirector } from "./Redirect";
+import { IRouteHandler } from "./RouteHandler";
 
-export interface ILoginProps extends IStatusHandler, IRedirector {
+export interface ILoginProps extends IStatusHandler, IRouteHandler {
 }
 
 export interface ILoginState {

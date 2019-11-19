@@ -20,17 +20,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     this.showStatus = this.showStatus.bind(this);
     this.clearStatus = this.clearStatus.bind(this);
-    this.onRedirect = this.onRedirect.bind(this);
-  }
-
-  private onRedirect(to:string) {
-    this.setState({
-      redirectTo: to
-    }, () => {
-      this.setState({
-        redirectTo: ""
-      });
-    });
   }
 
   private showStatus(message: string, type:string) {
@@ -55,22 +44,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     });
   }
 
-  private handleRedirect() {
-    if(!UtilService.isAuthenticated()) {
-      return (
-          <Redirect to="/" />
-      );
-    }
-
-    if(this.state.redirectTo) {
-      return (
-        <Redirect to={this.state.redirectTo} />
-      );
-    }
-
-    return null;
-  }
-
   public render() {
     return (
       <div className="container-fluid app-wrapper">
@@ -79,25 +52,24 @@ export default class App extends React.Component<IAppProps, IAppState> {
           <Switch>
             <Route exact path="/" render={(props) => {
               return (
-                <Login onRedirect={this.onRedirect} showStatus={this.showStatus} {...props} />
+                <Login showStatus={this.showStatus} {...props} />
               );
             }} />
             <Route exact path="/diary" render={(props) => {
               return (
-                <Diary onRedirect={this.onRedirect} showStatus={this.showStatus} {...props} />
+                <Diary showStatus={this.showStatus} {...props} />
               );
             }} />
             <Route exact path="/diary/edit/:id" render={(props) => {
               return (
-                <DiaryEntryForm onRedirect={this.onRedirect} showStatus={this.showStatus} {...props} />
+                <DiaryEntryForm showStatus={this.showStatus} {...props} />
               );
             }} />
             <Route exact path="/diary/create" render={(props) => {
               return (
-                <DiaryEntryForm onRedirect={this.onRedirect} showStatus={this.showStatus} />
+                <DiaryEntryForm showStatus={this.showStatus} {...props} />
               );
             }} />
-            {this.handleRedirect()}
           </Switch>
         </Router>
       </div>
