@@ -34,7 +34,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
 
         try {
             await HttpService.delete("/api/diary/" + this.state.entry.id);
-            this.props.history.push("/diary" + this.state.entry.id);;
+            this.props.history.push("/diary");
         }
         catch(e) {
             this.props.showStatus("Failed to delete entry.", UtilService.STATUS_ERROR);
