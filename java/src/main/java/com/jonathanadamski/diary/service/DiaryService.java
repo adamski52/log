@@ -50,6 +50,18 @@ public class DiaryService {
         if(payload.getFood() == null || payload.getFood().equals("")) {
             throw new InvalidFieldException("food", payload.getFood());
         }
+
+        if(payload.getThoughts() == null) {
+            throw new InvalidFieldException("thoughts", payload.getThoughts());
+        }
+
+        if(payload.getActivity() == null) {
+            throw new InvalidFieldException("activity", payload.getActivity());
+        }
+
+        if(payload.getExercise() == null) {
+            throw new InvalidFieldException("exercise", payload.getActivity());
+        }
     }
 
     public DiaryEntry create(DiaryEntryCreatePayload payload) throws Err {
