@@ -10,7 +10,8 @@ public class UserModule implements Jooby.Module {
     @Override
     public void configure(Env env, Config conf, Binder binder) {
         UserService userService = new UserService();
-        userService.setSalt(conf.getString("app.salt"));
+        String salt = conf.getString("app.salt");
+        userService.setSalt(salt);
         env.set(UserService.class, userService);
         binder.bind(UserService.class).toInstance(userService);
     }

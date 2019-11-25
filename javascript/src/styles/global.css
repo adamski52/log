@@ -18,7 +18,7 @@ body {
 
 .status-banner-wrapper {
     width: 100%;
-    position: absolute;
+    position: fixed;
     margin: 20px 0;
     top: 0;
     z-index: 9999;
@@ -87,6 +87,11 @@ tr:nth-child(even) {
 tr:nth-child(even).problematic-entry td,
 tr.problematic-entry td {
     background: #fde5e5;
+}
+
+tr:nth-child(even).good-entry td,
+tr.good-entry td {
+    background: #e5fdee;
 }
 
 

@@ -6,10 +6,10 @@ import UtilService from '../services/Util';
 import HttpService from '../services/Http';
 
 export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps, IDiaryEntryFormState> {
-    private dateRef:React.RefObject<HTMLInputElement> = React.createRef();
     private foodRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
     private thoughtsRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
     private activityRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
+    private exerciseRef:React.RefObject<HTMLTextAreaElement> = React.createRef();
 
     constructor(props: IDiaryEntryFormProps) {
         super(props);
@@ -23,7 +23,9 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                 activity: "",
                 hunger: 0,
                 slot: 0,
-                isProblematic: false
+                isProblematic: false,
+                isGood: false,
+                exercise: ""
             }
         };
 
@@ -31,7 +33,18 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
         this.onHungerScaleChange = this.onHungerScaleChange.bind(this);
         this.onTimeSlotChange = this.onTimeSlotChange.bind(this);
         this.onIsProblematicChange = this.onIsProblematicChange.bind(this);
+        this.onIsGoodChange = this.onIsGoodChange.bind(this);
+        this.onDateChange = this.onDateChange.bind(this);
         this.onBackToList = this.onBackToList.bind(this);
+    }
+
+    private onDateChange(e:ChangeEvent<HTMLInputElement>) {
+        this.setState({
+            entry: {
+                ...this.state.entry,
+                date: e.target.value
+            }
+        });
     }
 
     private onBackToList(e:MouseEvent<HTMLButtonElement>) {
@@ -43,7 +56,18 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
         this.setState({
             entry: {
                 ...this.state.entry,
+                isGood: false,
                 isProblematic: !this.state.entry.isProblematic
+            }
+        });
+    }
+
+    private onIsGoodChange(e:ChangeEvent<HTMLInputElement>) {
+        this.setState({
+            entry: {
+                ...this.state.entry,
+                isProblematic: false,
+                isGood: !this.state.entry.isGood
             }
         });
     }
@@ -69,11 +93,13 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
     private async createNewEntry() {
         try {
             await HttpService.post("/api/diary", {
-                date: new Date(this.dateRef.current!.value),
+                date: new Date(this.state.entry.date),
                 food: UtilService.getRefValue(this.foodRef),
                 thoughts: UtilService.getRefValue(this.thoughtsRef),
                 slot: this.state.entry.slot,
                 hunger: this.state.entry.hunger,
+                isGood: !!this.state.entry.isGood,
+                exercise: UtilService.getRefValue(this.exerciseRef),
                 isProblematic: !!this.state.entry.isProblematic,
                 activity: UtilService.getRefValue(this.activityRef)
             });
@@ -90,11 +116,13 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
         try {
             await HttpService.put("/api/diary/" + this.state.entry.id, {
                 id: this.state.entry.id,
-                date: new Date(this.dateRef.current!.value),
+                date: new Date(this.state.entry.date),
                 food: UtilService.getRefValue(this.foodRef),
                 thoughts: UtilService.getRefValue(this.thoughtsRef),
                 slot: this.state.entry.slot,
                 hunger: this.state.entry.hunger,
+                isGood: !!this.state.entry.isGood,
+                exercise: UtilService.getRefValue(this.exerciseRef),
                 isProblematic: !!this.state.entry.isProblematic,
                 activity: UtilService.getRefValue(this.activityRef)
             });
@@ -141,7 +169,9 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                     activity: response.activity,
                     hunger: response.hunger,
                     slot: response.slot,
-                    isProblematic: !!response.isProblematic
+                    exercise: response.exercise,
+                    isProblematic: !!response.isProblematic,
+                    isGood: !!response.isGood
                 }
             });
         }
@@ -162,7 +192,7 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                     <div className="col-4">
                         <div className="form-group">
                             <label>Date</label>
-                            <input type="text" className="form-control" ref={this.dateRef} defaultValue={this.state.entry.date} />
+                            <input type="text" className="form-control" onChange={this.onDateChange} value={this.state.entry.date} />
                         </div>
                     </div>
                     <div className="col-4">
@@ -180,25 +210,37 @@ export default class DiaryEntryForm extends React.Component<IDiaryEntryFormProps
                     <div className="col-6">
                         <div className="form-group">
                             <label>Activity</label>
-                            <textarea className="form-control" defaultValue={this.state.entry.activity} ref={this.activityRef} />
+                            <textarea className="form-control" defaultValue={this.state.entry.activity || ""} ref={this.activityRef} />
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label>Thoughts</label>
-                            <textarea className="form-control" defaultValue={this.state.entry.thoughts} ref={this.thoughtsRef} />
+                            <textarea className="form-control" defaultValue={this.state.entry.thoughts || ""} ref={this.thoughtsRef} />
                         </div>
                     </div>
-                    <div className="col-12">
+                    <div className="col-6">
                         <div className="form-group">
                             <label>Food</label>
-                            <textarea className="form-control" defaultValue={this.state.entry.food} ref={this.foodRef} />
+                            <textarea className="form-control" defaultValue={this.state.entry.food || ""} ref={this.foodRef} />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label>Exercise</label>
+                            <textarea className="form-control" defaultValue={this.state.entry.exercise || ""} ref={this.exerciseRef} />
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" checked={this.state.entry.isProblematic} onChange={this.onIsProblematicChange} />
                             <label className="form-check-label">Problematic</label>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" checked={this.state.entry.isGood} onChange={this.onIsGoodChange} />
+                            <label className="form-check-label">Good</label>
                         </div>
                     </div>
                     <div className="col-12 text-right controls-wrapper">

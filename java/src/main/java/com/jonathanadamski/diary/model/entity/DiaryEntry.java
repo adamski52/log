@@ -23,7 +23,9 @@ public class DiaryEntry {
     private String food;
     private String thoughts;
     private String activity;
-    private Boolean isProblematic;
+    private Boolean isProblematic = false;
+    private Boolean isGood = false;
+    private String exercise;
     private int hunger;
 
     public void setDate(String date) throws ParseException {

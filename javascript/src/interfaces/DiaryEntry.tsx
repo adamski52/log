@@ -5,11 +5,13 @@ export interface IDiaryEntry {
     id: number;
     date: string;
     slot: number;
-    food: string;
-    thoughts: string;
+    food: string | null;
+    thoughts: string | null;
     hunger: number;
-    activity: string;
+    activity: string | null;
     isProblematic: boolean;
+    isGood: boolean;
+    exercise: string | null;
 }
 
 export interface IDiaryEntryProps extends IStatusHandler, IRouteHandler {

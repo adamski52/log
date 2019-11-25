@@ -41,7 +41,11 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
         }
     }
 
-    private renderParagraphs(value:string) {
+    private renderParagraphs(value:string | null) {
+        if(!value) {
+            return "";
+        }
+        
         let lines = value.split("\n"),
             ps = lines.map((line, index) => {
                 return (
@@ -50,6 +54,18 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
             });
         
         return ps;
+    }
+
+    private getClassName() {
+        if(this.state.entry.isProblematic) {
+            return "problematic-entry";
+        }
+
+        if(this.state.entry.isGood) {
+            return "good-entry";
+        }
+
+        return "";
     }
 
     public render() {
@@ -62,7 +78,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
         });
 
         return (
-            <tr className={this.state.entry.isProblematic ? "problematic-entry" : "obv not"}>
+            <tr className={this.getClassName()}>
                 <td>{UtilService.getDateString(this.state.entry.date)}</td>
                 <td>
                     <span className={slotInfo!.className + " badge"}>{slotInfo!.name}</span>
@@ -73,6 +89,7 @@ export default class DiaryEntry extends React.Component<IDiaryEntryProps, IDiary
                 </td>
                 <td>{this.renderParagraphs(this.state.entry.thoughts)}</td>
                 <td>{this.renderParagraphs(this.state.entry.activity)}</td>
+                <td>{this.renderParagraphs(this.state.entry.exercise)}</td>
                 <td>
                     <button onClick={this.onEdit} className="btn btn-primary icon-pencil-square" />
                     <button onClick={this.onDelete} className="btn btn-danger icon-trash" />

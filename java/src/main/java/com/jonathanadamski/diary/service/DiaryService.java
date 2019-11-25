@@ -29,6 +29,8 @@ public class DiaryService {
             entity.setThoughts(payload.getThoughts());
             entity.setHunger(payload.getHunger());
             entity.setIsProblematic(payload.getIsProblematic());
+            entity.setIsGood(payload.getIsGood());
+            entity.setExercise(payload.getExercise());
             entity.setActivity(payload.getActivity());
         }
         catch (ParseException e) {
@@ -55,6 +57,10 @@ public class DiaryService {
 
         if(payload.getActivity() == null || payload.getActivity().equals("")) {
             throw new InvalidFieldException("activity", payload.getActivity());
+        }
+
+        if(payload.getExercise() == null || payload.getExercise().equals("")) {
+            throw new InvalidFieldException("exercise", payload.getActivity());
         }
     }
 

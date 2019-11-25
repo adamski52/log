@@ -114,6 +114,7 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
                             </th>
                             <th>Thoughts</th>
                             <th>Activity</th>
+                            <th>Exercise</th>
                             <th className="controls-column"></th>
                         </tr>
                     </thead>
