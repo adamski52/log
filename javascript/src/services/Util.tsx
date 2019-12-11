@@ -1,5 +1,6 @@
 import {style} from 'typestyle';
 import Cookie from "js-cookie";
+import { ITimeSlot } from '../interfaces/TimeSlot';
 
 export default class UtilService {
 
@@ -116,10 +117,12 @@ export default class UtilService {
         }];
     }
 
-    public static getTimeSlots() {
+    public static getTimeSlots():ITimeSlot[] {
         return [{
             name: "Breakfast",
             value: 0,
+            backgroundColor: "#bd544f",
+            color: "#fff",
             className: style({
                 "backgroundColor": "#bd544f",
                 "color": "#fff"
@@ -127,6 +130,8 @@ export default class UtilService {
         }, {
             name: "Morning Snack",
             value: 1,
+            backgroundColor: "#d66300",
+            color: "#fff",
             className: style({
                 "backgroundColor": "#d66300",
                 "color": "#fff"
@@ -134,6 +139,8 @@ export default class UtilService {
         }, {
             name: "Lunch",
             value: 2,
+            backgroundColor: "#839a00",
+            color: "#fff",
             className: style({
                 "backgroundColor": "#839a00",
                 "color": "#fff"
@@ -141,6 +148,8 @@ export default class UtilService {
         }, {
             name: "Afternoon Snack",
             value: 3,
+            backgroundColor: "#0f8282",
+            color: "#fff",
             className: style({
                 "backgroundColor": "#0f8282",
                 "color": "#fff"
@@ -148,6 +157,8 @@ export default class UtilService {
         }, {
             name: "Dinner",
             value: 4,
+            backgroundColor: "#2a65d0",
+            color: "#fff",
             className: style({
                 "backgroundColor": "#2a65d0",
                 "color": "#fff"
@@ -155,6 +166,8 @@ export default class UtilService {
         }, {
             name: "Evening Snack",
             value: 5,
+            backgroundColor: "#792ad0",
+            color: "#fff",
             className: style({
                 "backgroundColor": "#792ad0",
                 "color": "#fff"

@@ -110,3 +110,7 @@ th {
 th.controls-column {
     min-width: 100px;
 }
+
+.rbc-calendar {
+    min-height: 500px;
+}

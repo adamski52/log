@@ -5,6 +5,7 @@ import HttpService from '../services/Http';
 import { IDiaryEntry } from '../interfaces/DiaryEntry';
 import UtilService from '../services/Util';
 import TableFilter from './TableFilter';
+import DiaryCalendar from './DiaryCalendar';
 
 export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
     constructor(props:IDiaryProps) {
@@ -100,6 +101,9 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
             <div className="row diary-entries-wrapper justify-content-center">
                 <div className="col-12 controls-wrapper">
                     <button className="btn btn-primary" onClick={this.onCreate}>Create</button>
+                </div>
+                <div className="col-12">
+                    <DiaryCalendar entries={this.state.entries} />
                 </div>
                 <table className="col-10">
                     <thead>
