@@ -1,6 +1,7 @@
 import {style} from 'typestyle';
 import Cookie from "js-cookie";
 import { ITimeSlot } from '../interfaces/TimeSlot';
+import { valueToNode } from '@babel/types';
 
 export default class UtilService {
 
@@ -41,6 +42,12 @@ export default class UtilService {
         }
 
         return null;
+    }
+
+    public static getTimeSlotByValue(value:number) {
+        return this.getTimeSlots().find((slot) => {
+            return slot.value === value;
+        });
     }
 
     public static getHungerScales() {
@@ -173,5 +180,11 @@ export default class UtilService {
                 "color": "#fff"
             })
         }];
+    }
+
+    public static getHungerScaleByValue(value:number) {
+        return UtilService.getHungerScales().find((scale) => {
+            return scale.value === value;
+        });
     }
 }

@@ -84,16 +84,17 @@ tr:nth-child(even) {
     background: #f0f0f0;
 }
 
+.problematic-entry,
 tr:nth-child(even).problematic-entry td,
 tr.problematic-entry td {
     background: #fde5e5;
 }
 
+.good-entry,
 tr:nth-child(even).good-entry td,
 tr.good-entry td {
     background: #e5fdee;
 }
-
 
 td {
     vertical-align: top;;
@@ -113,4 +114,23 @@ th.controls-column {
 
 .rbc-calendar {
     min-height: 500px;
+}
+
+.modal-body {
+    font-size: .8rem;
+}
+
+.modal-row {
+    margin-bottom: 20px;
+    padding-bottom: 1px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.modal-row-title {
+    font-weight: bold;
+    margin: 0 10px 0 0;
+}
+
+.diary-calendar-wrapper {
+    margin-bottom: 20px;
 }

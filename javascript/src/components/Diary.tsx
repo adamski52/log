@@ -103,7 +103,7 @@ export default class Diary extends React.Component<IDiaryProps, IDiaryState> {
                     <button className="btn btn-primary" onClick={this.onCreate}>Create</button>
                 </div>
                 <div className="col-12">
-                    <DiaryCalendar entries={this.state.entries} />
+                    <DiaryCalendar {...this.props} entries={this.state.entries.reverse()} />
                 </div>
                 <table className="col-10">
                     <thead>
